@@ -1,4 +1,5 @@
-let passwordSet = [...'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+// let passwordSet = [...'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+let passwordSet = [...'0123456789'];
 let passwordSetIndex = generatePasswordIndex(passwordSet);
 
 document.getElementById("unlock").addEventListener("click", unlockPassword);
@@ -10,14 +11,13 @@ function unlockPassword(){
         let t0 = performance.now();
         let unlocked = unlock(password);
         let t1 = performance.now();
-        console.log('Took', (t1 - t0).toFixed(4), 'milliseconds');
-
+        
         print.innerHTML = "Password: " + unlocked.password + "<br>"
         + "Amount of tries: " + unlocked.tries + "<br>"
         + "Time it took: " + (t1 - t0).toFixed(4) + " ms";
     } else {
         console.log("No input");
-    }   
+    }
 }
 
 //this generates the password index with each key as digit {'a' : 11} so it can be used to find the index
@@ -85,14 +85,7 @@ function unlock(password){
 
 //this function checks if the string consists of the last digit, returns true if it is and false if otherwise
 function isFlip(str, lastDigit){
-    let array = [...str];
-    let length = str.length;
-    for (let i = 0; i < length; i++){
-        if (array[i] !== lastDigit){
-            return false;
-        }
-    }
-    return true;
+    return str === lastDigit.repeat(str.length);
 }
 
 //adds the first digit from password set to the string
@@ -102,14 +95,7 @@ function addDigit(array, str){
 
 //this resets all the characters before the index to the first digit from password set
 function resetAllBefore(str, index, firstDigit){
-    let n = str.substr(0, index).length;
-    let i = 0;
-    let zeros = "";
-    while (i < n){
-        zeros+=firstDigit;
-        i++;
-    }
-    return zeros + str.substr(index);
+    return firstDigit.repeat(index) + str.substr(index);
 }
 
 function replaceAt(str, newStr, index){
