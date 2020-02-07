@@ -7,14 +7,20 @@ document.getElementById("unlock").addEventListener("click", unlockPassword);
 function unlockPassword(){
     let password = document.getElementById("password").value;
     let print = document.getElementById("print");
+    let element = document.createElement("div");
+
     if (password){
         let t0 = performance.now();
         let unlocked = unlock(password);
         let t1 = performance.now();
         
-        print.innerHTML = "Password: " + unlocked.password + "<br>"
+        let result = "Password: " + unlocked.password + "<br>"
         + "Amount of tries: " + unlocked.tries + "<br>"
         + "Time it took: " + (t1 - t0).toFixed(4) + " ms";
+
+        element.setAttribute("class", "result");
+        element.innerHTML = result;
+        print.appendChild(element);
     } else {
         console.log("No input");
     }

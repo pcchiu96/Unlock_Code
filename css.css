@@ -7,10 +7,20 @@ body {
 .title {
     font-size: 34px;
     padding: 30px;   
+    text-align: center;
+}
+
+p {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.unlock_code {
+    display: grid;
 }
 
 input, #unlock {
-    font-size: inherit;
+    justify-self: center;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -23,14 +33,18 @@ input, #unlock {
 
 input {
     display: block;
-    width: 100%;
+    width: 300px;
     font-size: 24px;
 }
 
 #unlock {
-    width: 100%;
+    width: 300px;
 }
 
 #print {
-    margin: 20px 0;
+    margin: 20px auto;
+}
+
+.result {
+    margin: 10px 0;
 }
