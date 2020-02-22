@@ -4,24 +4,30 @@ import uuidv4 from "uuid/v4";
 import "./App.css";
 
 function App() {
-    // let passwordSet = [...'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'];
-    let passwordSet = [..."0123456789"];
-    let passwordSetIndex = generatePasswordIndex(passwordSet);
+    let codeSet = [..."0123456789abcdefghijklmnopqrstuvwxyz"];
+    // let codeSet = [..."0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+    // let codeSet = [..."0123456789"];
+    let codeSetIndex = generatecodeIndex(codeSet);
+    let counter = 1;
 
     const [attempts, setAttempts] = useState([]);
-    const passwordRef = useRef();
+    const codeRef = useRef();
 
     function handleUnlock() {
-        let password = passwordRef.current.value;
+        let code = codeRef.current.value.toLowerCase();
 
-        if (password) {
+        if (code) {
             let t0 = performance.now();
-            let unlocked = unlock(password);
+            let unlocked = unlock(code);
             let t1 = performance.now();
-            unlocked.time = (t1 - t0).toFixed(4);
-            unlocked.id = uuidv4();
+            unlocked.time = (t1 - t0).toFixed(3);
+            // unlocked.id = uuidv4();
 
-            console.log(unlocked);
+            if (attempts.length === 0) {
+                unlocked.id = counter;
+            } else {
+                unlocked.id = attempts[attempts.length - 1].id + 1;
+            }
 
             setAttempts(prevAttemps => {
                 return [...prevAttemps, unlocked];
@@ -31,23 +37,27 @@ function App() {
         }
     }
 
-    //this generates the password index with each key as digit {'a' : 11} so it can be used to find the index
-    function generatePasswordIndex(passwordSet) {
+    function handleClear() {
+        setAttempts([]);
+    }
+
+    //this generates the code index with each key as digit {'a' : 11} so it can be used to find the index
+    function generatecodeIndex(codeSet) {
         let obj = {};
-        let length = passwordSet.length;
+        let length = codeSet.length;
         for (let i = 0; i < length; i++) {
-            obj[passwordSet[i]] = i;
+            obj[codeSet[i]] = i;
         }
         return obj;
     }
 
-    function unlock(password) {
-        let runner = passwordSet[0]; //initial value
+    function unlock(code) {
+        let runner = codeSet[0]; //initial value
         let n = 0;
 
-        let lastDigit = passwordSet[passwordSet.length - 1];
-        let firstDigit = passwordSet[0];
-        let passwordLength = passwordSet.length;
+        let lastDigit = codeSet[codeSet.length - 1];
+        let firstDigit = codeSet[0];
+        let codeLength = codeSet.length;
         let index = 0;
         let increment = 0;
         let pointer = 1;
@@ -55,12 +65,12 @@ function App() {
         let next = "";
         let digitIndex = 0;
 
-        while (password !== runner) {
-            if (increment === passwordLength) {
+        while (code !== runner) {
+            if (increment === codeLength) {
                 //one tick
                 if (isFlip(runner, lastDigit)) {
                     //at max digit value
-                    runner = addDigit(passwordSet, runner); //add a digit
+                    runner = addDigit(codeSet, runner); //add a digit
                     runner = resetAllBefore(runner, runner.length, firstDigit); //reset all values before it to default
                     increment = 0;
                 } else {
@@ -71,9 +81,9 @@ function App() {
                         next = runner.charAt(pointer);
                     }
 
-                    digitIndex = passwordSetIndex[next] + 1;
+                    digitIndex = codeSetIndex[next] + 1;
 
-                    runner = replaceAt(runner, passwordSet[digitIndex], pointer);
+                    runner = replaceAt(runner, codeSet[digitIndex], pointer);
                     runner = resetAllBefore(runner, pointer, firstDigit);
 
                     pointer = 1;
@@ -81,7 +91,7 @@ function App() {
                 }
             }
 
-            runner = replaceAt(runner, passwordSet[increment], index);
+            runner = replaceAt(runner, codeSet[increment], index);
             increment++;
 
             //console.log(runner);
@@ -90,7 +100,7 @@ function App() {
         console.log("Took " + n + " many tries.");
 
         return {
-            password: runner,
+            code: runner,
             tries: n
         };
     }
@@ -100,12 +110,12 @@ function App() {
         return str === lastDigit.repeat(str.length);
     }
 
-    //adds the first digit from password set to the string
+    //adds the first digit from code set to the string
     function addDigit(array, str) {
         return str + array[0];
     }
 
-    //this resets all the characters before the index to the first digit from password set
+    //this resets all the characters before the index to the first digit from code set
     function resetAllBefore(str, index, firstDigit) {
         return firstDigit.repeat(index) + str.substr(index);
     }
@@ -117,7 +127,7 @@ function App() {
     return (
         <div className='background'>
             <div className='App'>
-                <header className='App-header'>Welcome to Unlock Code</header>
+                <header className='App-header mt-5'>Welcome to Unlock Code</header>
                 <dl className='row'>
                     <dt className='col-sm-2 align-right'>Description</dt>
                     <dd className='col-sm-9'>
@@ -125,7 +135,7 @@ function App() {
                         <a className='btn-link text-info' href='https://www.youtube.com/watch?v=yzGzB-yYKcc'>
                             Snowden
                         </a>{" "}
-                        said about passwords under 8 characters can be solved under a second.
+                        said about codes under 8 characters can be solved under a second.
                     </dd>
 
                     <dt className='col-sm-2 align-right'>Guide</dt>
@@ -137,15 +147,32 @@ function App() {
                         entered.
                     </dd>
                 </dl>
-                <div className='form-inline mb-5'>
-                    <div className='form-group mx-sm-3 mb-2'>
-                        <input type='text' ref={passwordRef} className='form-control' placeholder='Enter a code' />
+                <div className='form-inline mb-5 center_form'>
+                    <div className='form-group m-0 m-sm-3'>
+                        <input type='text' ref={codeRef} className='form-control' placeholder='Enter a code' />
                     </div>
-                    <button onClick={handleUnlock} className='btn btn-info mb-2'>
-                        Unlock
-                    </button>
+                    <div>
+                        <button type='button' onClick={handleUnlock} className='btn btn-outline-info shadow-none m-sm-3'>
+                            Unlock
+                        </button>
+                        <button type='button' onClick={handleClear} className='btn btn-outline-info shadow-none'>
+                            Clear
+                        </button>
+                    </div>
                 </div>
-                <AttempList attempts={attempts} />
+                <table className='table table-hover table-dark'>
+                    <thead>
+                        <tr>
+                            <th scope='col '>#</th>
+                            <th scope='col'>Code</th>
+                            <th scope='col'>Amount of Tries</th>
+                            <th scope='col'>Time Spent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <AttempList attempts={attempts} />
+                    </tbody>
+                </table>
             </div>
         </div>
     );
