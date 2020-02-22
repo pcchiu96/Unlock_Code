@@ -115,35 +115,38 @@ function App() {
     }
 
     return (
-        <div className='App'>
-            <header className='App-header'>Welcome to Unlock Code</header>
-            <dl class='row'>
-                <dt class='col-sm-4 text-right'>Description</dt>
-                <dd class='col-sm-5'>
-                    This is just a fun little project I made to see if I can replicate what{" "}
-                    <a class='btn-link text-info' href='https://www.youtube.com/watch?v=yzGzB-yYKcc'>
-                        Snowden
-                    </a>{" "}
-                    said about passwords under 8 characters can be solved under a second.
-                </dd>
+        <div className='background'>
+            <div className='App'>
+                <header className='App-header'>Welcome to Unlock Code</header>
+                <dl className='row'>
+                    <dt className='col-sm-2 align-right'>Description</dt>
+                    <dd className='col-sm-9'>
+                        This is just a fun little project I made to see if I can replicate what{" "}
+                        <a className='btn-link text-info' href='https://www.youtube.com/watch?v=yzGzB-yYKcc'>
+                            Snowden
+                        </a>{" "}
+                        said about passwords under 8 characters can be solved under a second.
+                    </dd>
 
-                <dt class='col-sm-4 text-right'>Guide</dt>
-                <dd class='col-sm-5'>Simply enter any code you would like my program to try unlock</dd>
+                    <dt className='col-sm-2 align-right'>Guide</dt>
+                    <dd className='col-sm-9'>Simply enter any code you would like my program to try unlock</dd>
 
-                <dt class='col-sm-4 text-right'>Note</dt>
-                <dd class='col-sm-5'>
-                    This obviously isn't a hack or anymeans. All it does is run every possible combination and hit with the code entered.
-                </dd>
-            </dl>
-            <div className='form-inline'>
-                <div className='form-group mx-sm-3 mb-2'>
-                    <input type='text' ref={passwordRef} className='form-control' placeholder='Enter a code' />
+                    <dt className='col-sm-2 align-right'>Note</dt>
+                    <dd className='col-sm-9'>
+                        This obviously isn't a hack or anymeans. All it does is run every possible combination and hit with the code
+                        entered.
+                    </dd>
+                </dl>
+                <div className='form-inline mb-5'>
+                    <div className='form-group mx-sm-3 mb-2'>
+                        <input type='text' ref={passwordRef} className='form-control' placeholder='Enter a code' />
+                    </div>
+                    <button onClick={handleUnlock} className='btn btn-info mb-2'>
+                        Unlock
+                    </button>
                 </div>
-                <button onClick={handleUnlock} className='btn btn-primary mb-2'>
-                    Unlock
-                </button>
+                <AttempList attempts={attempts} />
             </div>
-            <AttempList attempts={attempts} />
         </div>
     );
 }
