@@ -12,12 +12,18 @@
         <script type="text/javascript" src="unlock-code.js" defer></script>
     </head>
     <body>
-        <div class="background">
-            <header class="">Welcome to Unlock Code</header>
+        <div class="wrapper">
+            <h1 class="">Welcome to Unlock Code</h1>
+
+            <div>
+                <p>
+                    This is just a fun little project I made to see if I can replicate what Snowden said about codes under 8 characters can be solved under a second. Simply enter
+                    any code you would like my program to try unlock. Note This obviously isn't a hack by anymeans. All it does is run every possible combination.
+                </p>
+            </div>
 
             <div class="unlock">
-                <div class="title">Enter a password</div>
-                <input type="password" id="password" />
+                <input type="password" id="code" placeholder="Enter a code" />
                 <button id="unlock">Unlock</button>
             </div>
 

@@ -1,5 +1,4 @@
-let codeSet = [..."0123456789abcdefghijklmnopqrstuvwxyz"];
-// let codeSet = [..."0123456789"];
+let codeSet = [..."0123456789"];
 let codeSetIndex = generateCodeIndex(codeSet);
 let counter = 1;
 
@@ -8,7 +7,7 @@ document.getElementById("unlock").addEventListener("click", function () {
 });
 
 function handleUnlock() {
-    let code = document.getElementById("password").value;
+    let code = document.getElementById("code").value;
     let print = document.getElementById("print");
 
     if (code) {
@@ -17,7 +16,7 @@ function handleUnlock() {
         let t1 = performance.now();
         unlocked.time = (t1 - t0).toFixed(3);
 
-        print.innerHTML = "Password: " + unlocked.password + "<br>" + "Amount of tries: " + unlocked.tries + "<br>" + "Time it took: " + unlocked.time + " ms";
+        print.innerHTML = "Code: " + unlocked.code + "<br>" + "Amount of tries: " + unlocked.tries + "<br>" + "Time it took: " + unlocked.time + " ms";
     } else {
         console.log("No input");
     }
