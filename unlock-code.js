@@ -8,17 +8,17 @@ document.getElementById("unlock").addEventListener("click", function () {
 
 function handleUnlock() {
     let code = document.getElementById("code").value;
-    let print = document.getElementById("print");
+    let table = document.getElementById("table");
 
-    if (isNaN(code)) return (print.innerHTML = "Input must all be numbers.");
+    if (isNaN(code)) return alert("Input must all be numbers.");
 
     if (code) {
         let t0 = performance.now();
         let unlocked = unlock(code);
         let t1 = performance.now();
-        unlocked.time = (t1 - t0).toFixed(3);
+        unlocked.time = ((t1 - t0) / 1000).toFixed(4);
 
-        let row = print.insertRow(-1);
+        let row = table.insertRow(-1);
 
         // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
         let cell1 = row.insertCell(0);
