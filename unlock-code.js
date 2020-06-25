@@ -1,4 +1,4 @@
-let codeSet = [..."0123456789"];
+let codeSet = [..."1234567890"];
 let codeSetIndex = generateCodeIndex(codeSet);
 let counter = 1;
 
@@ -10,13 +10,38 @@ function handleUnlock() {
     let code = document.getElementById("code").value;
     let print = document.getElementById("print");
 
+    if (isNaN(code)) return (print.innerHTML = "Input must all be numbers.");
+
     if (code) {
         let t0 = performance.now();
         let unlocked = unlock(code);
         let t1 = performance.now();
         unlocked.time = (t1 - t0).toFixed(3);
 
-        print.innerHTML = "Code: " + unlocked.code + "<br>" + "Amount of tries: " + unlocked.tries + "<br>" + "Time it took: " + unlocked.time + " ms";
+        let row = print.insertRow(-1);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+
+        // Add some text to the new cells:
+        cell1.innerHTML = unlocked.code;
+        cell2.innerHTML = unlocked.tries;
+        cell3.innerHTML = unlocked.time;
+
+        // let tableRow = document.createElement("tr");
+        // let tableCode = document.createElement("td");
+        // let tableTries = document.createElement("td");
+        // let tableTime = document.createElement("td");
+
+        // tableCode.appendChild(document.createTextNode(unlocked.code));
+        // tableTries.appendChild(document.createTextNode(unlocked.tries));
+        // tableTime.appendChild(document.createTextNode(unlocked.time));
+
+        // tableRow.appendChild(tableCode);
+        // tableRow.appendChild(tableTries);
+        // tableRow.appendChild(tableTime);
     } else {
         console.log("No input");
     }

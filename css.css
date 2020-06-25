@@ -8,8 +8,9 @@ body {
 }
 
 .wrapper {
-    width: 60%;
+    width: 70%;
     margin: auto;
+    padding: 1em 0 6em 0;
 }
 
 h1 {
@@ -18,31 +19,87 @@ h1 {
     text-align: center;
 }
 
+.grid {
+    display: grid;
+}
+
+.grid img {
+    display: none;
+}
+
+.grid p {
+    text-indent: 2em;
+    line-height: 1.5;
+    align-self: center;
+}
+
 .unlock {
     text-align: center;
 }
 
-input {
-    font-size: 16px;
-    line-height: 1.5;
-    padding: 6px 12px;
+#code {
+    font-size: 1.2em;
+    padding: 6px;
     border-radius: 4px;
-    border: none;
+    border: 1px solid white;
     transition: 0.3s;
+    letter-spacing: 10px;
+    text-align: center;
 }
 
 button {
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 1.2em;
     padding: 6px 12px;
     border-radius: 4px;
-    border: 1px solid #14a3b8;
-    background-color: transparent;
-    color: #14a3b8;
+    border: 1px solid white;
     transition: 0.3s;
+    background-color: transparent;
+
+    color: white;
+    cursor: pointer;
 }
 
 button:hover {
-    background-color: #14a3b8;
+    background-color: #4f5ac3;
     color: white;
+}
+
+.theme {
+    color: #4f5ac3;
+}
+
+table {
+    margin: 3em auto;
+    width: 100%;
+}
+
+table td {
+    text-align: left;
+}
+
+table th,
+td {
+    width: 33%;
+    border: 1px dotted white;
+    padding: 0.4em;
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        width: 80%;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+
+    .grid img {
+        display: block;
+        margin: auto;
+        width: 80px;
+    }
+
+    table {
+        width: 80%;
+    }
 }
